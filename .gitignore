@@ -26,3 +26,16 @@
 *.exe
 *.out
 *.app
+
+
+# Exclude dependecies documentation
+dep/**/doc/
+dep/**/docs/
+
+# Exclude log files
+*.log
+*.tlog
+
+# Keep all dependencies binaries
+!dep/**/*.lib
+!dep/**/*.dll
