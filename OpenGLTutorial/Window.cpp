@@ -15,9 +15,9 @@ Window::Window(int width, int height , const char* title)
 
 	// Definicao dos atributos do contexto OpenGL
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_FALSE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 
@@ -35,6 +35,8 @@ Window::Window(int width, int height , const char* title)
 	// Torna o contexto atual
 	glfwMakeContextCurrent(m_Window);
 
+	glewExperimental = GL_TRUE;
+
 	GLenum glewInitErr = glewInit();
 
 	if (glewInitErr != GLEW_OK)
@@ -49,8 +51,6 @@ Window::Window(int width, int height , const char* title)
 	std::cout << "Renderizador: " << renderer << std::endl;
 	std::cout << "Versao do opengl suportada: " << version << std::endl;
 
-	
-	
 	m_ShouldClose = false;
 }
 
