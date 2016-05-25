@@ -1,6 +1,6 @@
 #include "Window.h"
 #include <iostream>
-
+#include "Scene.h"
 
 Window::Window(int width, int height , const char* title)
 {
@@ -16,7 +16,10 @@ Window::Window(int width, int height , const char* title)
 	// Definicao dos atributos do contexto OpenGL
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_OPENGL_COMPAT_PROFILE, GL_FALSE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
 
 	glfwSetErrorCallback(Window::errorCallback);
 
@@ -46,26 +49,29 @@ Window::Window(int width, int height , const char* title)
 	std::cout << "Renderizador: " << renderer << std::endl;
 	std::cout << "Versao do opengl suportada: " << version << std::endl;
 
-	glClearColor(0.5f, 0.5f, 1, 0 );
-
+	
+	
 	m_ShouldClose = false;
 }
 
 void Window::update()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glfwPollEvents();
+	if (m_Scene)
+		m_Scene->update();
+
 	glfwSwapBuffers(m_Window);
 
+	glfwPollEvents();
 	if (!m_ShouldClose)
-		m_ShouldClose = glfwWindowShouldClose(m_Window);
+		m_ShouldClose = glfwWindowShouldClose(m_Window) == GL_TRUE;
 }
 
 Window::~Window()
 {
 	glfwDestroyWindow(m_Window);
 	glfwTerminate();
+
 }
 
 void Window::errorCallback(int error, const char* description)
